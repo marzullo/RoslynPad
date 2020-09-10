@@ -31,6 +31,7 @@ namespace RoslynPad.UI
         string EffectiveDocumentPath { get; }
         double? WindowFontSize { get; set; }
         bool FormatDocumentOnComment { get; set; }
+        public List<string> OutputBuildFiles { get; set; }
     }
 
     [Export(typeof(IApplicationSettings)), Shared]
@@ -58,12 +59,9 @@ namespace RoslynPad.UI
         private bool _searchWhileTyping;
         private bool _enableBraceCompletion = true;
         private string _defaultPlatformName;
-<<<<<<< HEAD
-        private List<string> _outputBuildFiles = new List<string>();
-=======
         private double? _windowFontSize;
         private bool _formatDocumentOnComment = true;
->>>>>>> master
+        private List<string> _outputBuildFiles = new List<string>();
 
         [ImportingConstructor]
         public ApplicationSettings([Import(AllowDefault = true)] ITelemetryProvider telemetryProvider)
