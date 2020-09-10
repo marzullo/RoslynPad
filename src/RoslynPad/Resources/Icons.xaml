@@ -15,6 +15,25 @@
 
     <!-- Source: Visual Studio Image Library -->
 
+    <DrawingImage x:Key="AddTextFile">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V16 H16 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M16,16z M0,0z M16,16L0,16 0,0 16,0 16,16z">
+                    <GeometryDrawing.Brush>
+                        <SolidColorBrush Color="#FFF6F6F6" Opacity="0" />
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1 M16,16z M0,0z M10.621,0L3.019,0 2.989,1.989 1,2.018 1,6 2,6 2,16 15,16 15,4.379z" />
+                <GeometryDrawing Brush="#FF424242" Geometry="F1 M16,16z M0,0z M10.207,1L7,1 7,2 9,2 9,6 13,6 13,14 4,14 4,8 3.019,8 3,15 14,15 14,4.793 10.207,1z M10,5L10,2.207 12.793,5 10,5z M12,8L7,8 7,7 12,7 12,8z M12,10L5,10 5,9 12,9 12,10z M12,12L5,12 5,11 12,11 12,12z" />
+                <DrawingGroup Opacity="1">
+                    <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1 M16,16z M0,0z M7,2L9,2 9,2.018 7,2.018z M10,2.207L10,5 12.793,5z M9,6L7,6 7,7 12,7 12,8 4,8 4,14 13,14 13,6 9,6z M12,12L5,12 5,11 12,11 12,12z M12,10L5,10 5,9 12,9 12,10z" />
+                    <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1 M16,16z M0,0z M7,2L9,2 9,2.018 7,2.018z M10,2.207L10,5 12.793,5z M9,6L7,6 7,7 12,7 12,8 4,8 4,14 13,14 13,6 9,6z M12,12L5,12 5,11 12,11 12,12z M12,10L5,10 5,9 12,9 12,10z" />
+                </DrawingGroup>
+                <GeometryDrawing Brush="#FF388A34" Geometry="F1 M16,16z M0,0z M8,3.018L6,3.018 6,1 4.019,1 4.019,3.018 2,3.018 2,5 4.019,5 4.019,7 6,7 6,5 8,5 8,3.018z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="Bulb">
         <DrawingImage.Drawing>
             <DrawingGroup>

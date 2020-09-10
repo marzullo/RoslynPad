@@ -32,6 +32,7 @@ namespace RoslynPad.Build
         Task SendInputAsync(string input);
         Task ExecuteAsync(string code, bool disassemble, OptimizationLevel? optimizationLevel);
         Task TerminateAsync();
+        void UpdateFilesToCopy(List<string> filePaths);
     }
 
     internal class RestoreResult

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Composition;
 using System.IO;
@@ -28,6 +29,7 @@ namespace RoslynPad.UI
         bool SearchWhileTyping { get; set; }
         string DefaultPlatformName { get; set; }
         string EffectiveDocumentPath { get; }
+        public List<string> OutputBuildFiles { get; set; }
     }
 
     [Export(typeof(IApplicationSettings)), Shared]
@@ -55,6 +57,7 @@ namespace RoslynPad.UI
         private bool _searchWhileTyping;
         private bool _enableBraceCompletion = true;
         private string _defaultPlatformName;
+        private List<string> _outputBuildFiles = new List<string>();
 
         [ImportingConstructor]
         public ApplicationSettings(ITelemetryProvider telemetryProvider)
@@ -176,6 +179,12 @@ namespace RoslynPad.UI
 
                 return _effectiveDocumentPath;
             }
+        }
+
+        public List<string> OutputBuildFiles
+        {
+            get => _outputBuildFiles;
+            set => SetProperty(ref _outputBuildFiles, value);
         }
 
         public string GetDefaultDocumentPath()

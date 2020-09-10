@@ -13,11 +13,13 @@ using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
+using NuGet.Packaging;
 using NuGet.Versioning;
 using RoslynPad.Build;
 using RoslynPad.NuGet;
 using RoslynPad.Roslyn.Rename;
 using RoslynPad.Runtime;
+using RoslynPad.UI.Dialogs;
 using RoslynPad.Utilities;
 
 namespace RoslynPad.UI
@@ -136,6 +138,7 @@ namespace RoslynPad.UI
             _platformsFactory.Changed += InitializePlatforms;
 
             OpenBuildPathCommand = commands.Create(() => OpenBuildPath());
+            OpenAddOutputFileCommand = commands.CreateAsync(() => OpenAddOutputFile());
             SaveCommand = commands.CreateAsync(() => Save(promptSave: false));
             RunCommand = commands.CreateAsync(Run, () => !IsRunning && RestoreSuccessful && Platform != null);
             RestartHostCommand = commands.CreateAsync(RestartHost, () => Platform != null);
@@ -509,6 +512,18 @@ namespace RoslynPad.UI
             });
         }
 
+        public async Task OpenAddOutputFile()
+        {
+            var dialog = _serviceProvider.GetService<IAddOutputFileDialog>();
+            dialog.CurrentFilePaths.AddRange(MainViewModel.Settings.OutputBuildFiles);
+
+            await dialog.ShowAsync();
+
+            MainViewModel.Settings.OutputBuildFiles = dialog.CurrentFilePaths.ToList();
+
+            _executionHost.UpdateFilesToCopy(MainViewModel.Settings.OutputBuildFiles);
+        }
+
         public async Task<SaveResult> Save(bool promptSave)
         {
             if (_isSaving) return SaveResult.Cancel;
@@ -616,6 +631,8 @@ namespace RoslynPad.UI
         public string Title => Document != null && !Document.IsAutoSaveOnly ? Document.Name : "New";
 
         public IDelegateCommand OpenBuildPathCommand { get; }
+
+        public IDelegateCommand OpenAddOutputFileCommand { get; }
 
         public IDelegateCommand SaveCommand { get; }
 

@@ -119,6 +119,9 @@
                 <Button Command="{Binding OpenBuildPathCommand, Mode=OneTime}"
                         ToolTip="Open Build Folder"
                         Content="{StaticResource PackageFolder}" />
+                <Button Command="{Binding OpenAddOutputFileCommand, Mode=OneTime}"
+                        ToolTip="Add Build Output Files"
+                        Content="{StaticResource AddTextFile}" />
                 <Separator />
                 <Menu Background="Transparent"
                       Name="RootMenu">

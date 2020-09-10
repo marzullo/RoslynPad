@@ -49,6 +49,7 @@ namespace RoslynPad.Build
         private bool _running;
         private bool _initializeBuildPathAfterRun;
         private TextWriter? _processInputStream;
+        private List<string> _filesToCopy;
 
         public ExecutionPlatform Platform
         {
@@ -99,6 +100,7 @@ namespace RoslynPad.Build
             _scriptOptions = ScriptOptions.Default
                    .WithImports(parameters.Imports)
                    .WithMetadataResolver(new CachedScriptMetadataResolver(parameters.WorkingDirectory));
+            _filesToCopy = new List<string>();
 
             _initHostSyntax = ParseSyntaxTree(@"RoslynPad.Runtime.RuntimeInitializer.Initialize();", roslynHost.ParseOptions);
 
@@ -201,6 +203,19 @@ namespace RoslynPad.Build
                     InitializeBuildPath(stop: false);
                 }
             }
+        }
+
+        public void UpdateFilesToCopy(List<string> filePaths)
+        {
+            _filesToCopy = filePaths;
+
+            IOUtilities.PerformIO(() =>
+                                  {
+                                      foreach (var path in filePaths)
+                                      {
+                                          IOUtilities.FileCopy(path, Path.Combine(BuildPath, Path.GetFileName(path)), true);
+                                      }
+                                  });
         }
 
         private void Disassemble()
