@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Formatting;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Text;
@@ -325,7 +326,7 @@ namespace RoslynPad.UI
 
         private IEnumerable<string> GetReferencePaths(IEnumerable<MetadataReference> references)
         {
-            return references.OfType<PortableExecutableReference>().Select(x => x.FilePath);
+            return references.OfType<PortableExecutableReference>().Select(x => x.FilePath).Where(x => x != null)!;
         }
 
         private async Task RenameSymbol()
@@ -345,7 +346,8 @@ namespace RoslynPad.UI
             await dialog.ShowAsync();
             if (dialog.ShouldRename)
             {
-                var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, symbol, dialog.SymbolName, null).ConfigureAwait(true);
+                var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, symbol, dialog.SymbolName ?? string.Empty,
+                    document.Project.Solution.Options).ConfigureAwait(true);
                 var newDocument = newSolution.GetDocument(DocumentId);
                 // TODO: possibly update entire solution
                 host.UpdateDocument(newDocument!);
@@ -408,7 +410,7 @@ namespace RoslynPad.UI
             if (changes.Count == 0) return;
 
             MainViewModel.RoslynHost.UpdateDocument(document.WithText(documentText.WithChanges(changes)));
-            if (action == CommentAction.Uncomment)
+            if (action == CommentAction.Uncomment && MainViewModel.Settings.FormatDocumentOnComment)
             {
                 await FormatDocument().ConfigureAwait(false);
             }
@@ -685,6 +687,11 @@ namespace RoslynPad.UI
                 var code = await GetCode(cancellationToken).ConfigureAwait(true);
                 if (_executionHost != null)
                 {
+                    // Make sure the execution working directory matches the current script path
+                    // which may have changed since we loaded.
+                    if (_executionHostParameters.WorkingDirectory != WorkingDirectory)
+                        _executionHostParameters.WorkingDirectory = WorkingDirectory;
+
                     await _executionHost.ExecuteAsync(code, ShowIL, OptimizationLevel).ConfigureAwait(true);
                 }
             }

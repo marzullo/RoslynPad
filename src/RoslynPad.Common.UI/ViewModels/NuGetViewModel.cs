@@ -35,7 +35,7 @@ namespace RoslynPad.UI
         public string GlobalPackageFolder { get; }
 
         [ImportingConstructor]
-        public NuGetViewModel(ITelemetryProvider telemetryProvider, IApplicationSettings appSettings)
+        public NuGetViewModel([Import(AllowDefault = true)] ITelemetryProvider? telemetryProvider, IApplicationSettings appSettings)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace RoslynPad.UI
                     {
                         if (i == retries)
                         {
-                            telemetryProvider.ReportError(ex);
+                            telemetryProvider?.ReportError(ex);
                             throw;
                         }
                     }
@@ -111,9 +111,9 @@ namespace RoslynPad.UI
 
                 if (result?.Length > 0)
                 {
-                    var repositoryPackages = result.Where(x => x.Identity.Id.Contains(searchTerm))
-                                                   .Select(x => new PackageData(x))
-                                                   .ToArray();
+                    var repositoryPackages = result
+                                             .Select(x => new PackageData(x))
+                                             .ToArray();
                     await Task.WhenAll(repositoryPackages.Select(x => x.Initialize())).ConfigureAwait(false);
                     packages.AddRange(repositoryPackages);
                 }
