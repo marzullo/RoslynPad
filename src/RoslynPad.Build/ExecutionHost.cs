@@ -213,7 +213,7 @@ namespace RoslynPad.Build
                                   {
                                       foreach (var path in filePaths)
                                       {
-                                          IOUtilities.FileCopy(path, Path.Combine(BuildPath, Path.GetFileName(path)), true);
+                                          IOUtilities.FileCopy(path, Path.Combine(BuildPath + "\\bin", Path.GetFileName(path)), true);
                                       }
                                   });
         }

@@ -7,7 +7,7 @@
     <Deterministic>True</Deterministic>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <EditorPackageVersion>1.2.0</EditorPackageVersion>
-    <RoslynPackageVersion>3.7.0-4.final</RoslynPackageVersion>
+    <RoslynPackageVersion>3.7.0</RoslynPackageVersion>
     <RoslynAssemblyVersion>3.7.0.0</RoslynAssemblyVersion>
     <AvaloniaVersion>0.9.11</AvaloniaVersion>
     <LangVersion>8.0</LangVersion>
